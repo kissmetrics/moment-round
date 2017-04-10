@@ -1,6 +1,15 @@
-(function() {
-
-  var moment = (typeof require !== "undefined" && require !== null) && !require.amd ? require("moment") : this.moment;
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['moment'], factory);
+    } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+        // CommonJS
+        factory(require('moment'));
+    } else {
+        // Browser globals
+        factory(root.moment);
+    }
+}(this, function (moment) {
 
   moment.fn.round = function(precision, key, direction) {
     if(typeof direction === 'undefined') {
@@ -9,7 +18,7 @@
 
     var keys = ['Hours', 'Minutes', 'Seconds', 'Milliseconds'];
     var maxValues = [24, 60, 60, 1000];
-    
+
     // Capitalize first letter
     key = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
 
@@ -48,8 +57,4 @@
   moment.fn.floor = function(precision, key) {
     return this.round(precision, key, 'floor');
   }
-
-  if ((typeof module !== "undefined" && module !== null ? module.exports : void 0) != null) {
-    module.exports = moment;
-  }
-}).call(this);
+}));
